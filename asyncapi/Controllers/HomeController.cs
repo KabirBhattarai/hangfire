@@ -21,20 +21,22 @@ public class HomeController : Controller
 
     public void BulkImportSimulation()
     {
-        Task.Delay(TimeSpan.FromSeconds(60));
-        _logger.LogInformation("Data Processing Completed!");
+        Thread.Sleep(10000);
+        Console.WriteLine("Bulk import completed");
     }
 
+    [HttpGet("api/task/bulk-import")]
     public IActionResult BulkAsyncImport()
     {
         BackgroundJob.Enqueue(() => BulkImportSimulation());
-        return Accepted("Bulk Import Started");
+        return View();
     }
     
+    [HttpGet("api/task/bulk-import/sync")]
     public IActionResult BulkImport()
     {
         BulkImportSimulation();
-        return Accepted("Bulk Import Started");
+        return View();
     }
 
     public IActionResult Privacy()
